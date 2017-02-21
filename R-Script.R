@@ -65,45 +65,23 @@ round(prop.table(table(testing$category)) * 100,1)
 round(prop.table(table(mat.df$category)) * 100,1)
 
 
-set.seed(400)
-ctrl <- trainControl(method = "repeatedcv", repeats = 2,number = 4) 
-knnFit <- train(category ~ .,
-                data = training,
-                method = "knn",
-                trControl = ctrl,
-                preProcess = c("center", "scale"),
-                tuneLength = 7)
-
-#Output of kNN fit
-knnFit
-
-#Plotting yields Number of Neighbours Vs accuracy (based on repeated cross validation)
-plot(knnFit)
-
-
-knnPredict <- predict(knnFit,newdata = testing[,-ncol(testing)] )
-#Get the confusion matrix to see accuracy value and other parameter values
-confusionMatrix(knnPredict, testing$category )
-
-mean(knnPredict == testing$category)
-
-
-
-
 
 set.seed(400)
-ctrl <- trainControl(method = "repeatedcv", repeats = 2,number = 3) 
+control <- trainControl(method = "repeatedcv",
+                        number = 3,
+                        repeats = 1,
+                        search = "grid")
+
+tunegrid <- expand.grid(.mtry = c(1:25))
 
 # Random forrest
-rfFit <-
-  train(
-    category ~ .,
-    data = training,
-    method = "rf",
-    trControl = ctrl,
-    preProcess = c("center", "scale"),
-    tuneLength = 7
-  )
+rfFit <- train(category ~ .,
+               data = training,
+               method = "rf",
+               metric = 'Accuracy',
+               tuneGrid = tunegrid,
+               trControl = control,
+               preProcess = c("center", "scale"))
 
 
 plot(rfFit)
@@ -150,10 +128,34 @@ names(missing_vars) <- temp
 unseen_set <- bind_cols(mat.df.t,missing_vars)
 
 #Output
-rfPredict <- predict(rfFit,newdata = unseen_set)
+Output <- predict(rfFit,newdata = unseen_set)
+
+Output
 
 
 
 
 
+-----------------------------------------------------------------
+# Trying KNN, but it gave lower accuracy
+set.seed(400)
+ctrl <- trainControl(method = "repeatedcv", repeats = 1,number = 4) 
+knnFit <- train(category ~ .,
+                data = training,
+                method = "knn",
+                trControl = ctrl,
+                preProcess = c("center", "scale"),
+                tuneLength = 7)
 
+#Output of kNN fit
+knnFit
+
+#Plotting yields Number of Neighbours Vs accuracy (based on repeated cross validation)
+plot(knnFit)
+
+
+knnPredict <- predict(knnFit,newdata = testing[,-ncol(testing)] )
+#Get the confusion matrix to see accuracy value and other parameter values
+confusionMatrix(knnPredict, testing$category )
+
+mean(knnPredict == testing$category)
