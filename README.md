@@ -4,18 +4,18 @@ You have been given a stack of documents that have already been processed and so
 
 * Training Data
 
-In order to figure out what category each document should fall under you will base it on the categories of the documents in the "trainingdata.txt" file. This file will be included with your program at runtime and will be named "trainingdata.txt".
+  - In order to figure out what category each document should fall under you will base it on the categories of the documents in the "trainingdata.txt" file. This file will be included with your program at runtime and will be named "trainingdata.txt".
 
-The file is formatted as follows:
+  - The file is formatted as follows:
 
-The first line contains the number of lines that will follow.
+    - The first line contains the number of lines that will follow.
 
-Each following line will contain a number (1-8), which is the category number. The number will be followed by a space then some space seperated words which is the processed document.
+    - Each following line will contain a number (1-8), which is the category number. The number will be followed by a space then some space seperated words which is the processed document.
 
-Input
+* Input
 
-The first line in the input file will contain T the number of documents. T lines will follow each containing a series of space seperated words which represents the processed document.
+  - The first line in the input file will contain T the number of documents. T lines will follow each containing a series of space seperated words which represents the processed document.
 
-Output
+* Output
 
-For each document output a number between 1-8 which you believe this document should be categorized as.
+  - For each document output a number between 1-8 which you believe this document should be categorized as.
